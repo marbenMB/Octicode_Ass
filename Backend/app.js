@@ -1,36 +1,26 @@
 const	http = require('http')
-const	urlApi = 'https://dummyjson.com/users'
-const	fetch = require('node-fetch')
+const	url = require('url')
+const	querystring = require('querystring')
+
+const	{usersController} = require('./controllers/Users.controller')
+const	{chunkUsersController} = require('./controllers/ChunkUsers.controller')
+
+const PORT = 3500
+
+console.debug(`------------- Server Is Listening In PORT : ${PORT} -------------`)
 
 const server = http.createServer((req, res) => {
 
-	if (req.url === '/getData')
-	{
-		try {
-	
-			fetch(urlApi)
-				.then((response) => {
-					if (!response.ok)
-						throw Error(`Http Error : ${response.status}`)
-					return response.json()
-				}).then(response => {
-						// console.log(response)
-						res.writeHead(200, {'Content-Type' : 'application/json'})
-						res.end(JSON.stringify(response));
-				}).catch(err => {
-					res.writeHead(404, { 'Content-Type': 'text/plain' });
-					res.end('Endpoint not found');
-				})
-		}catch (err) {
-			console.error(err);
-		}
-	}
+	let parsedUrl = url.parse(req.url)
+	let parsedQuery = querystring.parse(parsedUrl.query)
+
+	if (parsedUrl.pathname === '/users' && parsedUrl.query === null)
+		usersController(res)
+	else if (parsedUrl.pathname === '/users' && parsedQuery.page !== undefined && parsedQuery.page !== '')
+		chunkUsersController(res, parsedQuery.page)
 	else
-		res.end("Hello World!!")
+		res.end("Home Page")
 
-		
-
-	console.debug(req.url)
 })
 
-server.listen(3500);
+server.listen(PORT);
