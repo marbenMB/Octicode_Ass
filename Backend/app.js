@@ -1,3 +1,4 @@
+require('dotenv').config()
 const	http = require('http')
 const	url = require('url')
 const	querystring = require('querystring')
@@ -5,7 +6,7 @@ const	querystring = require('querystring')
 const	{usersController} = require('./controllers/Users.controller')
 const	{chunkUsersController} = require('./controllers/ChunkUsers.controller')
 
-const PORT = 3500
+const PORT = parseInt(process.env.PORT)
 
 console.debug(`------------- Server Is Listening In PORT : ${PORT} -------------`)
 

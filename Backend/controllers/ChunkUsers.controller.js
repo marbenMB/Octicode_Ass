@@ -1,7 +1,8 @@
 
+require('dotenv').config()
 const	{fetchUsersFromDummy} = require('../services/users.service');
 const	{chunkList} = require('../utils/utils')
-const	LISTLIMIT = 6
+const	LISTLIMIT = parseInt(process.env.LISTLIMIT)
 
 const	chunkUsersController = (res, pageQueryStr) => {
 	const	page = parseInt(pageQueryStr) ? parseInt(pageQueryStr) - 1 : parseInt(pageQueryStr)
