@@ -1,9 +1,9 @@
 const axios = require('axios')
 
-const url = 'https://dummyjson.com/users'
+const API_URL = 'https://dummyjson.com/users'
 
 const fetchUsersFromDummy = async () =>  {
-	const response = await axios.get(url)
+	const response = await axios.get(API_URL)
 	
 	return (response.data)
 }
