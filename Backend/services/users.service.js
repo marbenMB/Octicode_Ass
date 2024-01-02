@@ -4,9 +4,12 @@ require('dotenv').config()
 const API_URL = process.env.DATABASE_URL
 
 const fetchUsersFromDummy = async () =>  {
-	const response = await axios.get(API_URL)
-	
-	return (response.data)
+	try {
+		const response = await axios.get(API_URL)
+		return (response.data)
+	} catch (error) {
+		return (error)
+	}
 }
 
 module.exports = {fetchUsersFromDummy}

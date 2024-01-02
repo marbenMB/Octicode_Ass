@@ -12,15 +12,22 @@ console.debug(`------------- Server Is Listening In PORT : ${PORT} -------------
 
 const server = http.createServer((req, res) => {
 
+	res.setHeader('Access-Control-Allow-Origin', '*'); // Allow any origin
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Define allowed methods
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Define allowed headers
+
 	let parsedUrl = url.parse(req.url)
 	let parsedQuery = querystring.parse(parsedUrl.query)
 
-	if (parsedUrl.pathname === '/users' && parsedUrl.query === null)
-		usersController(res)
-	else if (parsedUrl.pathname === '/users' && parsedQuery.page !== undefined && parsedQuery.page !== '')
-		chunkUsersController(res, parsedQuery.page)
-	else
-		res.end("Home Page")
+	if (req.method === 'GET')
+	{
+		if (parsedUrl.pathname === '/users' && parsedUrl.query === null)
+			usersController(res)
+		else if (parsedUrl.pathname === '/users' && parsedQuery.page !== undefined && parsedQuery.page !== '')
+			chunkUsersController(res, parsedQuery.page)
+		else
+			res.end("Home Page")
+	}
 
 })
 
