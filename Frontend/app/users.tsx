@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import UserCard from "./components/userCard";
-import useFetchUsers from "./hooks/useFetchUsers";
-import PagedComp from "./components/pagination";
 import { Pagination } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from 'next/navigation'
@@ -11,7 +9,7 @@ import { useSearchParams } from 'next/navigation'
 
 const UsersCompo = () => {
 
-	const	[usersList, setUsersList] : any = useState(null);
+	const	[usersList, setUsersList] : any = useState([]);
 	const	[error, setError] = useState(null);
 	const	route = useRouter();
 	const searchParams = useSearchParams();
@@ -25,7 +23,7 @@ const UsersCompo = () => {
 			try {
 				const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}users${query}`)
 				if (!response.ok)
-				throw new Error('Failed In Fetching')
+					throw new Error('Failed In Fetching')
 			const result = await response.json()
 			setUsersList(result)
 		} catch (err: any) {
@@ -35,7 +33,7 @@ const UsersCompo = () => {
 		}
 	}
 	fetchUsersList();
-	}, [route, searchParams])
+}, [route, searchParams])
 
 
 	return ( 
@@ -47,7 +45,7 @@ const UsersCompo = () => {
 				</div>
 			))}
         </div>
-		<Pagination loop showControls color="default" total={50} initialPage={3} />
+		<Pagination loop showControls color="default" onChange={(n : number) => console.log(n)} total={6} initialPage={3} />
     </div>
 	);
 }
