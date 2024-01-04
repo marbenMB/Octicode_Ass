@@ -1,15 +1,42 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserCard from "./components/userCard";
 import useFetchUsers from "./hooks/useFetchUsers";
 import PagedComp from "./components/pagination";
+import { Pagination } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from 'next/navigation'
 
-const UsersCompo = (props: any) => {
 
-	const	{ api_url } = props
-	const	[urlQuery, setUrlQuery] = useState('1');
-	const	{usersList}  : any = useFetchUsers(api_url, urlQuery)
+const UsersCompo = () => {
+
+	const	[usersList, setUsersList] : any = useState(null);
+	const	[error, setError] = useState(null);
+	const	route = useRouter();
+	const searchParams = useSearchParams();
+
+
+
+	useEffect(() => {
+		const page : any = searchParams.get('page') || 1;
+		const query = `?page=${page}`;
+		const fetchUsersList = async () => {
+			try {
+				const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}users${query}`)
+				if (!response.ok)
+				throw new Error('Failed In Fetching')
+			const result = await response.json()
+			setUsersList(result)
+		} catch (err: any) {
+			setError(err)
+		} finally {
+			route.push(`${query}`);
+		}
+	}
+	fetchUsersList();
+	}, [route, searchParams])
+
 
 	return ( 
 	<div className="w-full h-full flex flex-col items-center gap-8">	
@@ -20,7 +47,7 @@ const UsersCompo = (props: any) => {
 				</div>
 			))}
         </div>
-		<PagedComp total={4}/>
+		<Pagination loop showControls color="default" total={50} initialPage={3} />
     </div>
 	);
 }

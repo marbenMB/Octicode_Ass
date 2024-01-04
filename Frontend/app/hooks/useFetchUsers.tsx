@@ -15,7 +15,7 @@ const useFetchUsers = (api_url: string | undefined, urlQuery: string) => {
 			const	query = urlQuery !== '' ? ('?page=' + urlQuery) : ''
 			console.log(query)
 			try {
-				const response = await fetch(`${api_url}/users${query}`)
+				const response = await fetch(`${api_url}users${query}`)
 				if (!response.ok)
 					throw new Error('Failed In Fetching')
 				const result = await response.json()
