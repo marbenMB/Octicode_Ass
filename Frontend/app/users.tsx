@@ -10,14 +10,15 @@ import { useSearchParams } from 'next/navigation'
 const UsersCompo = () => {
 
 	const	[usersList, setUsersList] : any = useState([]);
+	const searchParams = useSearchParams();
+	const	[n, setN] = useState<number>(Number(searchParams.get('page')) || 1)
 	const	[error, setError] = useState(null);
 	const	route = useRouter();
-	const searchParams = useSearchParams();
 
 
 
 	useEffect(() => {
-		const page : any = searchParams.get('page') || 1;
+		const page : any = n
 		const query = `?page=${page}`;
 		const fetchUsersList = async () => {
 			try {
@@ -33,7 +34,7 @@ const UsersCompo = () => {
 		}
 	}
 	fetchUsersList();
-}, [route, searchParams])
+}, [route, searchParams, n])
 
 
 	return ( 
@@ -45,7 +46,10 @@ const UsersCompo = () => {
 				</div>
 			))}
         </div>
-		<Pagination loop showControls color="default" onChange={(n : number) => console.log(n)} total={6} initialPage={3} />
+		<Pagination loop showControls color="default" onChange={(n : number) => {
+			setN(n)
+			
+			}} total={6} initialPage={n} />
     </div>
 	);
 }
