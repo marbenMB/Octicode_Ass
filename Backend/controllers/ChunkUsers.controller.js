@@ -17,7 +17,7 @@ const	chunkUsersController = (res, pageQueryStr) => {
 		else {
 			const chunked = chunkList(response.users, (page * LISTLIMIT), LISTLIMIT)
 			res.writeHead(200, {'Content-Type' : 'application/json'})
-			res.end(JSON.stringify(chunked))
+			res.end(JSON.stringify({list : chunked, total: response.users.length}))
 		}
 
 	})

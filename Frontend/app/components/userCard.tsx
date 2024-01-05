@@ -5,7 +5,7 @@ import {Card, CardHeader, CardBody, Image} from "@nextui-org/react";
 export default function UserCard(props : any) {
 	const	{firstName, lastName, Username, age, avatar} = props
   return (
-    <Card className="py-4 border border-divider shadow-none">
+    <Card className="py-4 min-w-[250px] border border-divider shadow-none">
       <CardBody className="overflow-visible py-2 flex justify-center items-center">
         <Image
           alt="Card background"
