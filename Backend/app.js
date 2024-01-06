@@ -5,8 +5,9 @@ const	querystring = require('querystring')
 
 const	{usersController} = require('./controllers/Users.controller')
 const	{chunkUsersController} = require('./controllers/ChunkUsers.controller')
+const	{searchedList} = require('./controllers/SearchList.controller')
 
-const PORT = parseInt(process.env.PORT)
+const PORT = parseInt(process.env.PORT) || 3500
 
 console.debug(`------------- Server Is Listening In PORT : ${PORT} -------------`)
 
@@ -19,14 +20,23 @@ const server = http.createServer((req, res) => {
 	let parsedUrl = url.parse(req.url)
 	let parsedQuery = querystring.parse(parsedUrl.query)
 
+	console.log(parsedUrl)
+
 	if (req.method === 'GET')
 	{
 		if (parsedUrl.pathname === '/users' && parsedUrl.query === null)
 			usersController(res)
 		else if (parsedUrl.pathname === '/users' && parsedQuery.page !== undefined && parsedQuery.page !== '')
 			chunkUsersController(res, parsedQuery.page)
+		else if (parsedUrl.pathname === '/search')
+			searchedList(req, res, parsedQuery)
 		else
 			res.end("Home Page")
+	}
+	else
+	{
+		res.writeHead(403, { 'Content-Type': 'text/plain' });
+  		res.end('403 - Forbidden');
 	}
 
 })
