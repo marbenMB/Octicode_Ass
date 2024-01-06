@@ -14,7 +14,6 @@ const UsersCompo = () => {
 	const	[usersList, setUsersList] : any = useState([])
 	const searchParams = useSearchParams()
 	const	[n, setN] = useState<number>(Number(searchParams.get('page')) || 1)
-	const	[error, setError] = useState(null)
 	const	route = useRouter()
 
 
@@ -31,7 +30,7 @@ const UsersCompo = () => {
 			setUsersList(result.list)
 			setPageLimit(result.total / listLimit)
 		} catch (err: any) {
-			setError(err)
+			console.error(err)
 		} finally {
 			route.push(`${query}`)
 		}

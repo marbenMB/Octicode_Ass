@@ -20,7 +20,6 @@ const server = http.createServer((req, res) => {
 	let parsedUrl = url.parse(req.url)
 	let parsedQuery = querystring.parse(parsedUrl.query)
 
-	console.log(parsedUrl)
 
 	if (req.method === 'GET')
 	{
