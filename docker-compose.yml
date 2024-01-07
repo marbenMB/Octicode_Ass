@@ -1,0 +1,29 @@
+version: '3.8'
+
+networks:
+  octicode:
+    name: octicode
+
+services:
+  frontend:
+    image: frontend:octicode
+    build: ./Frontend/
+    container_name: frontend_octicode
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./Frontend/.env
+    networks:
+      - octicode
+    depends_on:
+      - backend
+  backend:
+    image: backend:octicode
+    build: ./Backend/
+    container_name: backend_octicode
+    ports:
+      - '3500:3500'
+    env_file:
+      - ./Backend/.env
+    networks:
+      - octicode
