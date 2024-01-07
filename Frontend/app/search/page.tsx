@@ -11,7 +11,7 @@ const UsersCompo = () => {
 
 	const	[usersList, setUsersList] :any = useState([])
 	const searchParams = useSearchParams()
-	const	[userQuery, setUserQuery] = useState<string>(String(searchParams.get('search')) || '')
+	const	[userQuery, setUserQuery] = useState<string>(String(searchParams.get('search') ? searchParams.get('search') : ''))
 	const	route = useRouter()
 
 
@@ -40,7 +40,7 @@ const UsersCompo = () => {
 		<main className="min-w-screen min-h-screen bg-[#f1f5f9] light p-4">
 			<div className="w-full h-full flex flex-col  items-center gap-8">	
 				<h1 className="bg-white py-4 px-8 rounded-md cursor-pointer" onClick={() => route.push('/')}>Octicode Assessment</h1>
-				<Input isClearable type="text" label="Search By " variant="bordered" placeholder="UserName" defaultValue="" onClear={() => console.log("Clear Input")} onChange={(e) => setUserQuery(e.target.value)} className="max-w-xs"/>
+				<Input isClearable type="text" label="Search By " variant="bordered" placeholder="UserName" defaultValue="" value={userQuery} onClear={() => setUserQuery('')} onChange={(e) => setUserQuery(e.target.value)} className="max-w-xs"/>
 				<div className="w-fit gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 					{usersList.length === 0 ? (
 						<section className="w-full flex flex-col items-center"><p>No User ...</p></section>
