@@ -1,7 +1,7 @@
 # Octicode Assessement
 
 ## Usage :
-- You will find .env-example file in Backend and Frontend directories change its name to .env
+- You will find .env-example file in Backend and Frontend directories change its name to .env in each directory.
 - Then run the following command :
   `docker-compose up --build`
 - This command will run the backend in port : 3500 and the frontend in port : 3000
